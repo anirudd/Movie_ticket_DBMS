@@ -1,7 +1,10 @@
-
+//INTERACTIVE MOVIE BOOKING SYSTEM 
+//BY-ANIRUDDH RAMRAKHYANI UG201113005
+//
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<string.h>
 # define auth 1234
 FILE *fp,*fp1,*fp2;
 struct d{
@@ -54,7 +57,7 @@ user booker(user u)		//for booking tickets
 {char c,h;
 long int a;
 fp2=fopen("tic.txt","a+");
-fp1=fopen("exe.txt","a+");
+fp1=fopen("exe.txt","r+");
 if((fp2!=NULL)||(fp1!=NULL))
 {rewind(fp1);
 int i,j;
@@ -171,7 +174,7 @@ printf("\n\nenter your acoount_Id:");
 scanf("%ld",&e);
 printf("\nenter your password:");
 scanf("%s",p);
-fp=fopen("user.txt","a+");
+fp=fopen("user.txt","r+");
 if(fp==NULL) {printf("an error occured!\ttry again.");}
 else
 {rewind(fp);
@@ -201,7 +204,7 @@ scanf("%lld",&(u.p_no));
 printf("\nenter a password for your account(max 25 characters):");
 scanf("%s",u.pass);
 fseek(fp,(a+((-1)*sizeof(user))),0);fwrite(&u,sizeof(user),1,fp); fclose(fp); printf("\n\n your account has been modified");  break;
-case 3:fseek(fp,(a+((-1)*sizeof(user))),1); u.a_id=0; fwrite(&u,sizeof(user),1,fp); fclose(fp); printf("\n\n your account has been deleted");  break;
+case 3: u.a_id=0;strcpy(u.pass,"");fseek(fp,(a+((-1)*sizeof(user))),0); fwrite(&u,sizeof(user),1,fp); fclose(fp); printf("\n\n your account has been deleted");  break;
 case 4:printf("\n\nAccount Id:%ld\nName:%s\nemail:%s\nCredits earned:%d\nphone no:%lld",u.a_id,u.name,u.email,u.credits,u.p_no); fclose(fp);break;
 case 5:history(u); fclose(fp); break;
 case 6:fclose(fp);printf("\nyou have logged out succesfully"); break;
@@ -215,7 +218,7 @@ goto start1;
 }
 void create()		//creating account
 {user u;
-char c;
+char c,p;
 printf("\nenter your name:");
 scanf("%s",u.name);
 printf("\nenter your e-mail Id:");
@@ -235,10 +238,11 @@ fclose(fp);
 printf("\nyour account_id is:%ld\n\tACCOUNT CREATED SUCCESSFULLY",u.a_id);
 }
 scanf("%c",&c);
+scanf("%c",&p);
 }
 void elogin()		//executive login for entering movies
 {int r,i,j;
-char ch,m;
+char ch,p;
 ch='y';
 printf("\n\nenter Password:");
 scanf("%d",&r);
@@ -291,7 +295,7 @@ else
 fseek(fp,0,2);
 fwrite(&m,sizeof(movie),1,fp);
 fclose(fp);printf("\n\n\tMovie entered in database");}
-scanf("%c",&m);
+scanf("%c",&p);
 if(ch!='\n')
 printf("\nwanna enter more movies?( enter y or Y for yes):");
 scanf("%c",&ch);
